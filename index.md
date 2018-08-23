@@ -1,37 +1,47 @@
-## Welcome to GitHub Pages
+<SCRIPT TYPE="text/javascript" LANGUAGE="JavaScript">
+<!--
 
-You can use the [editor on GitHub](https://github.com/ppigmans/Countdown/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+dateFuture = new Date(2018,7,24,16,0,0);
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+function GetCount(){
 
-### Markdown
+        dateNow = new Date();                                                                        //grab current date
+        amount = dateFuture.getTime() - dateNow.getTime();                //calc milliseconds between dates
+        delete dateNow;
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+        // time is already past
+        if(amount < 0){
+                document.getElementById('countbox').innerHTML="Now!";
+        }
+        // date is still good
+        else{
+                days=0;hours=0;mins=0;secs=0;out="";
 
-```markdown
-Syntax highlighted code block
+                amount = Math.floor(amount/1000);//kill the "milliseconds" so just secs
 
-# Header 1
-## Header 2
-### Header 3
+                days=Math.floor(amount/86400);//days
+                amount=amount%86400;
 
-- Bulleted
-- List
+                hours=Math.floor(amount/3600);//hours
+                amount=amount%3600;
 
-1. Numbered
-2. List
+                mins=Math.floor(amount/60);//minutes
+                amount=amount%60;
 
-**Bold** and _Italic_ and `Code` text
+                secs=Math.floor(amount);//seconds
 
-[Link](url) and ![Image](src)
-```
+                if(days != 0){out += days +" day"+((days!=1)?"s":"")+", ";}
+                if(days != 0 || hours != 0){out += hours +" hour"+((hours!=1)?"s":"")+", ";}
+                if(days != 0 || hours != 0 || mins != 0){out += mins +" minute"+((mins!=1)?"s":"")+", ";}
+                out += secs +" seconds";
+                document.getElementById('countbox').innerHTML=out;
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+                setTimeout("GetCount()", 1000);
+        }
+}
 
-### Jekyll Themes
+window.onload=function(){GetCount();}//call when everything has loaded
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/ppigmans/Countdown/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+//-->
+</script>
+<div id="countbox"></div>
